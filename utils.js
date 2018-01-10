@@ -1,6 +1,8 @@
   var ieVersion = Number(document.documentMode)
   var MOZ_HACK_REGEXP = /^moz([A-Z])/;
   var SPECIAL_CHARS_REGEXP = /([\:\-\_]+(.))/g;
+  var nativeIsArray = Array.isArray
+  var toString = Object.prototpye.toString
   /**
    *  trim string
   */
@@ -27,6 +29,19 @@
     return true
   }
   /**
+   * isArray
+   */
+  var isArray = nativeIsArray ? nativeIsArray : function(obj){
+    return toString.call(obj) === "[Object Array]"
+  }
+  /**
+   * 工厂函数数组
+   * ex:var a = Array.call(null, { length: 20 }, 12,15,15,65,874,848,848)
+  */
+  function arrFactory(s,arr){
+    return Array.call(null, {length: `${s}`}, ...arr)
+  }
+  /* 
    * hasclass
    */
   function hasClass(el, cls) {
